@@ -9,7 +9,7 @@ help:
 	@echo "make env"
 	@echo "       Prepare development environment, use only once"
 	@echo "make env_update"
-	@echo "       If new dependencies are added in requirements/dev.txt, run this"
+	@echo "       If new dependencies are added, run this"
 	@echo "make test_unit"
 	@echo "       Run unit tests"
 	@echo "make test_integration"
