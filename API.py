@@ -2,7 +2,7 @@ from typing import List
 import uvicorn
 from fastapi import FastAPI, File, UploadFile, Response
 from fastapi.responses import HTMLResponse
-from LogoScout.image_processor import process_image
+from logo_scout.image_processor import process_image
 import json
 
 import logging
