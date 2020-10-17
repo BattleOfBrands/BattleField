@@ -1,9 +1,9 @@
 
 
 class BrandImpact:
-    def __init__(self, l, w):
-        self.resolution_l = l
-        self.resolution_w = w
+    def __init__(self, h, w):
+        self.image_height = h
+        self.image_width = w
 
     def is_inside_box(self, bounding_box, sub_screen):
         """
@@ -12,7 +12,7 @@ class BrandImpact:
         :param bounding_box:
         :return:
         """
-        dummy = self.resolution_w
+        dummy = self.image_width
         if sub_screen['x'] < bounding_box.x < sub_screen['x'] + sub_screen['h']:
             if sub_screen['y'] < bounding_box.y < sub_screen['y'] + sub_screen['w']:
                 return True
@@ -48,7 +48,7 @@ class BrandImpact:
         :param bounding_box:
         :return:
         """
-        return (bounding_box.w * bounding_box.h) / (self.resolution_l * self.resolution_w)
+        return (bounding_box.w * bounding_box.h) / (self.image_height * self.image_width)
 
     @staticmethod
     def diversion_score(brands):
@@ -81,9 +81,10 @@ class BrandImpact:
         """
         response = dict()
         for brand in brands:
-            bounding_box = brand.bounding_box
-            response[brand.name] = self.position_score(bounding_box) \
-                                   * self.consumption_score(bounding_box) \
-                                   * self.diversion_score(brands)
+            response[brand['name']] = 0.0
+            # bounding_box = brand.bounding_box
+            # response[brand.name] = self.position_score(bounding_box) \
+            #                        * self.consumption_score(bounding_box) \
+            #                        * self.diversion_score(brands)
 
         return response

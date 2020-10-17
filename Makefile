@@ -30,6 +30,10 @@ env_update:
 	$(VENV_ACTIVATE)
 	${PYTHON} -m pip install -r requirements.txt
 
+test:
+	$(VENV_ACTIVATE); $(PYTHON) -m pytest --log-cli-level=10 tests/ -v
+	@echo "Unit tests done"
+
 test_unit:
 	$(VENV_ACTIVATE); $(PYTHON) -m pytest --log-cli-level=10 tests/unit/ -v
 	@echo "Unit tests done"
