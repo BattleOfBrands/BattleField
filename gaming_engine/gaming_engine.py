@@ -2,6 +2,7 @@ from logo_scout.image_processor import ImageProcessor
 from brand_impact.metric import BrandImpact
 from selenium import webdriver
 from random import randint
+from PIL import Image
 
 import cv2
 import time
@@ -9,10 +10,10 @@ import time
 
 class Game:
     def __init__(self):
-        pass
-        # self.web_driver = self.create_web_driver()
+        self.web_driver = self.create_web_driver()
 
-    def create_web_driver(self):
+    @staticmethod
+    def create_web_driver():
         """
 
         :return:
@@ -28,18 +29,38 @@ class Game:
     def begin_game(self):
         while True:
             self.web_driver.save_screenshot("image.png")
-            image = cv2.imread("image.png")
-            cv2.resize(image, (250, 174))
-            cv2.imshow('Game', image)
+            image = Image.open("image.png")
+            print(image)
+            # TODO possible do multi-processing over here?
+            print(self.process_image(image))
+            # cv2.resize(image, (250, 174))
+            # cv2.imshow('Game', image)
 
             time.sleep(0.25)
-            cv2.destroyAllWindows()
+            # cv2.destroyAllWindows()
 
-    def calculate_impact(self):
-        brand_impact = BrandImpact()
+    def calculate_impact(self, image, brands):
+        """
 
-    def detect_logo(self):
+        :param brands:
+        :return:
+        """
+        brand_impact = BrandImpact(image)
+        computed_brand_impact = brand_impact.compute_impact(brands)
+        return computed_brand_impact
+
+    def detect_logo(self, image):
+        """
+
+        :param image:
+        :return:
+        """
         image_processor = ImageProcessor()
+        logos_identified = image_processor.detect_logos(image)
+        return logos_identified
+
+    def write_to_database(self):
+        pass
 
     def process_image(self, image):
         """
@@ -47,16 +68,8 @@ class Game:
         :param image:
         :return:
         """
-        print(image)
-        return [
-            {
-                "name": "Microsoft",
-                "visibility": 100,
-                "rectangle": {
-                    "x": randint(0, 1024),
-                    "y": randint(0, 768),
-                    "w": randint(20, 100),
-                    "h": randint(20, 50)
-                }
-            }
-        ]
+        brands_identified = self.detect_logo(image)
+        brand_impact = self.calculate_impact(image, brands_identified)
+        self.write_to_database()
+        return brand_impact
+

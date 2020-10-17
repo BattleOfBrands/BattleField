@@ -1,9 +1,9 @@
 
 
 class BrandImpact:
-    def __init__(self, h, w):
-        self.image_height = h
-        self.image_width = w
+    def __init__(self, image):
+        self.image_height = image.height
+        self.image_width = image.width
 
     def is_inside_box(self, bounding_box, sub_screen):
         """
