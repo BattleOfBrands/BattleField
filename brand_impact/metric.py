@@ -12,11 +12,12 @@ class BrandImpact:
         :param bounding_box:
         :return:
         """
+        dummy = self.resolution_w
         if sub_screen['x'] < bounding_box.x < sub_screen['x'] + sub_screen['h']:
             if sub_screen['y'] < bounding_box.y < sub_screen['y'] + sub_screen['w']:
                 return True
 
-        if sub_screen['x'] < bounding_box.x + bounding_box.w < sub_screen['x'] + sub_screen['h']
+        if sub_screen['x'] < bounding_box.x + bounding_box.w < sub_screen['x'] + sub_screen['h']:
             if sub_screen['y'] < bounding_box.y + bounding_box.h < sub_screen['y'] + sub_screen['w']:
                 return True
 
@@ -49,7 +50,8 @@ class BrandImpact:
         """
         return (bounding_box.w * bounding_box.h) / (self.resolution_l * self.resolution_w)
 
-    def diversion_score(self, brands):
+    @staticmethod
+    def diversion_score(brands):
         """
 
         :param brands:

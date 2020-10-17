@@ -1,7 +1,7 @@
 from random import randint
 
+
 def process_image(image):
-    print(image)
     return [
         {
             "name": "Microsoft",
