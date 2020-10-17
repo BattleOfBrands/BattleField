@@ -1,11 +1,13 @@
-from typing import List
 import uvicorn
+import json
+import logging
+
+from typing import List
 from fastapi import FastAPI, File, UploadFile, Response
 from fastapi.responses import HTMLResponse
-from logo_scout.image_processor import process_image
-import json
 
-import logging
+from gaming_engine.gaming_engine import Game
+
 app = FastAPI()
 
 
@@ -13,7 +15,8 @@ app = FastAPI()
 async def create_json_response(files: List[UploadFile] = File(...)):
     response = None
     try:
-        data = json.dumps(process_image(files[0]))
+        game = Game()
+        data = json.dumps(game.process_image(files[0]))
         response = Response(content=data, media_type="application/json")
     except Exception as error:
         logging.error("Error while uploading file ", str(error))
