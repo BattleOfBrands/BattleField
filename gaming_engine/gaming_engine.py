@@ -1,14 +1,44 @@
-from logo_scout.image_processor import process_image
+from logo_scout.image_processor import ImageProcessor
 from brand_impact.metric import BrandImpact
-
+from selenium import webdriver
 from random import randint
+
+import cv2
+import time
 
 
 class Game:
     def __init__(self):
-        pass
+        self.web_driver = self.create_web_driver()
 
-    def create_
+    def create_web_driver(self):
+        """
+
+        :return:
+        """
+        # TODO executable path to be present here itself
+        driver = webdriver.Firefox()
+
+        # Opening the website
+        driver.get("https://www.google.com")
+
+        return driver
+
+    def begin_game(self):
+        while True:
+            self.web_driver.save_screenshot("image.png")
+            image = cv2.imread("image.png")
+            cv2.resize(image, (250, 174))
+            cv2.imshow('Game', image)
+
+            time.sleep(0.25)
+            cv2.destroyAllWindows()
+
+    def calculate_impact(self):
+        brand_impact = BrandImpact()
+
+    def detect_logo(self):
+        image_processor = ImageProcessor()
 
     def process_image(self, image):
         """

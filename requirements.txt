@@ -3,3 +3,5 @@ fastapi
 python-multipart
 pytest
 jupyterlab
+selenium
+opencv-python
