@@ -9,7 +9,8 @@ import time
 
 class Game:
     def __init__(self):
-        self.web_driver = self.create_web_driver()
+        pass
+        # self.web_driver = self.create_web_driver()
 
     def create_web_driver(self):
         """
