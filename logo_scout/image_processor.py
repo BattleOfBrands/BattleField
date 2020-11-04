@@ -6,7 +6,7 @@ from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
 
 import logging
 import torch
-BRAND_NAMES = ["dream11", "paytm", "cred", "unacademy", "ceat"]
+BRAND_NAMES = ["dream11", "paytm", "cred", "unacademy", "altroz"]
 
 class ImageProcessor:
     def __init__(self):
@@ -34,7 +34,7 @@ class ImageProcessor:
 
         boxes = boxes.bbox_xyxy
 
-        boxes = [list(box) for box in boxes]
+        # boxes = [list(box) for box in boxes]
         return boxes
 
     def detect_logos(self, image=None):
