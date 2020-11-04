@@ -1,3 +1,4 @@
+from logo_scout.os2d.os2d.utils import read_image
 HIGH_IMPACT_PERCENT = 0.25
 MID_IMPACT_PERCENT = 0.5
 
@@ -8,6 +9,7 @@ LOW_IMPACT_SCORE = 0.5
 
 class BrandImpact:
     def __init__(self, image):
+        image = read_image(image)
         self.image_height = image.height
         self.image_width = image.width
 

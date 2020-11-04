@@ -6,11 +6,13 @@ from PIL import Image
 
 import cv2
 import time
+import json
 
 
 class Game:
     def __init__(self):
         self.web_driver = self.create_web_driver()
+        self.time_in_sec = 0
 
     @staticmethod
     def create_web_driver():
@@ -28,15 +30,18 @@ class Game:
 
     def begin_game(self):
         while True:
+            self.time_in_sec = self.time_in_sec+1
             self.web_driver.save_screenshot("image.png")
-            image = Image.open("image.png")
-            print(image)
-            # TODO possible do multi-processing over here?
-            print(self.process_image(image))
+            # image = Image.open("image.png")
+            # print(image)
+            # # TODO possible do multi-processing over here?
+            data = self.process_image(self.time_in_sec, "image.png")
+            print(data)
+            self.write_to_json(data)
             # cv2.resize(image, (250, 174))
             # cv2.imshow('Game', image)
 
-            time.sleep(0.25)
+            time.sleep(1)
             # cv2.destroyAllWindows()
 
     def calculate_impact(self, image, brands):
@@ -62,14 +67,27 @@ class Game:
     def write_to_database(self):
         pass
 
-    def process_image(self, image):
+    def process_image(self, id, image):
         """
 
         :param image:
         :return:
         """
         brands_identified = self.detect_logo(image)
-        brand_impact = self.calculate_impact(image, brands_identified)
-        self.write_to_database()
-        return brand_impact
+        return {id: brands_identified}
+        # brand_impact = self.calculate_impact(image, brands_identified)
+        # self.write_to_database()
+        # return brand_impact
 
+    def write_to_json(self, data):
+
+        with open('test.json') as f:
+            file_data = json.load(f)
+
+        file_data.update(data)
+
+        with open('test.json', 'w') as f:
+            json.dump(file_data, f)
+
+game = Game()
+game.begin_game()

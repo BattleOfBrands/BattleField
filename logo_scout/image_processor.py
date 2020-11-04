@@ -6,12 +6,11 @@ from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
 
 import logging
 import torch
-BRAND_NAMES = ["dream11", "paytm", "cred", "unacademy", "altroz"]
+BRAND_NAMES = ["dream11"] #, "paytm", "cred", "unacademy", "altroz"
 
 class ImageProcessor:
     def __init__(self):
         self.logo_identifiers = self.set_up(BRAND_NAMES)
-        self.detect_logos()
 
     def set_up(self, brand_names):
         identifier = dict()
@@ -44,13 +43,14 @@ class ImageProcessor:
         :return:
         """
         response = dict()
-        if image is None:
-            image = glob.glob("/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/match/*.jpg")[1]
-
-        for brand_name in self.logo_identifiers:
-            boxes = self.logo_identifiers[brand_name].identify_logos(image)
-            response[brand_name] = self.get_bounding_boxes(boxes)
-
-        return response
+        return {"Hello": "World"}
+        # if image is None:
+        #     image = glob.glob("/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/match/*.jpg")[1]
+        #
+        # for brand_name in self.logo_identifiers:
+        #     boxes = self.logo_identifiers[brand_name].identify_logos(image)
+        #     response[brand_name] = self.get_bounding_boxes(boxes)
+        #
+        # return response
 
 image_processor = ImageProcessor()
