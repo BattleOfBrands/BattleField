@@ -8,6 +8,7 @@ from fastapi.responses import HTMLResponse
 
 from gaming_engine.gaming_engine import Game
 from logo_scout.image_processor import ImageProcessor
+from PIL import Image
 
 
 app = FastAPI()
@@ -32,7 +33,8 @@ async def process_image(files: List[UploadFile] = File(...)):
     response = None
     try:
         game = Game()
-        data = json.dumps(game.process_image(files[0]))
+        image = Image.open(files[0].file)
+        data = json.dumps(game.process_image(image))
         response = Response(content=data, media_type="application/json")
     except Exception as error:
         logging.error("Error while uploading file ", str(error))

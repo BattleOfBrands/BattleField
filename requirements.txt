@@ -6,3 +6,7 @@ jupyterlab
 selenium
 opencv-python
 Pillow
+yacs
+matplotlib
+torch
+torchvision

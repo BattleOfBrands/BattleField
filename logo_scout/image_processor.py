@@ -15,7 +15,7 @@ class ImageProcessor:
             {
                 "name": "Microsoft",
                 "visibility": 100,
-                "rectangle": {
+                "bounding_box": {
                     "x": randint(0, 1024),
                     "y": randint(0, 768),
                     "w": randint(20, 100),

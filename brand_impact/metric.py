@@ -1,3 +1,9 @@
+HIGH_IMPACT_PERCENT = 0.25
+MID_IMPACT_PERCENT = 0.5
+
+HIGH_IMPACT_SCORE = 1
+MID_IMPACT_SCORE = 0.75
+LOW_IMPACT_SCORE = 0.5
 
 
 class BrandImpact:
@@ -5,21 +11,26 @@ class BrandImpact:
         self.image_height = image.height
         self.image_width = image.width
 
-    def is_inside_box(self, bounding_box, sub_screen):
+    def is_inside_box(self, bounding_box, percent):
         """
+        Check if at-least one point of the bounding box is present within the specified percentage
 
-        :param sub_screen:
+        :param percent: point +/- (point * percent)
         :param bounding_box:
         :return:
         """
-        dummy = self.image_width
-        if sub_screen['x'] < bounding_box.x < sub_screen['x'] + sub_screen['h']:
-            if sub_screen['y'] < bounding_box.y < sub_screen['y'] + sub_screen['w']:
-                return True
 
-        if sub_screen['x'] < bounding_box.x + bounding_box.w < sub_screen['x'] + sub_screen['h']:
-            if sub_screen['y'] < bounding_box.y + bounding_box.h < sub_screen['y'] + sub_screen['w']:
-                return True
+        percent = percent / 2  # we will be adding and subtracting from the mid point
+
+        if (self.image_height * (1 - percent) <= bounding_box['x'] <= self.image_height * (1 + percent)) and \
+                (self.image_width * (1 - percent) <= bounding_box['y'] <= self.image_width * (1 + percent)):
+            return True
+
+        if (self.image_height * (1 - percent) <= bounding_box['x'] + bounding_box['w'] <= self.image_height * (
+                1 + percent)) and \
+                (self.image_width * (1 - percent) <= bounding_box['y'] + bounding_box['h'] <= self.image_width * (
+                        1 + percent)):
+            return True
 
         return False
 
@@ -29,18 +40,14 @@ class BrandImpact:
         :param bounding_box:
         :return:
         """
-        # TODO define numbers or derive the numbers
-        high_impact = {"x": 1, "y": 1, "h": 1, "w": 1}
-        mid_impact = {"x": 1, "y": 1, "h": 1, "w": 1}
-        low_impact = {"x": 1, "y": 1, "h": 1, "w": 1}
 
-        if self.is_inside_box(bounding_box, high_impact):
-            return 1
+        if self.is_inside_box(bounding_box, HIGH_IMPACT_PERCENT):
+            return HIGH_IMPACT_SCORE
 
-        if self.is_inside_box(bounding_box, mid_impact):
-            return 0.75
+        if self.is_inside_box(bounding_box, MID_IMPACT_PERCENT):
+            return MID_IMPACT_SCORE
 
-        return 0.25
+        return LOW_IMPACT_SCORE
 
     def consumption_score(self, bounding_box):
         """
@@ -48,11 +55,12 @@ class BrandImpact:
         :param bounding_box:
         :return:
         """
-        return (bounding_box.w * bounding_box.h) / (self.image_height * self.image_width)
+        return (bounding_box['w'] * bounding_box['h']) / (self.image_height * self.image_width)
 
     @staticmethod
     def diversion_score(brands):
         """
+        if there are more than one logo there is slight penalty
 
         :param brands:
         :return:
@@ -61,6 +69,11 @@ class BrandImpact:
 
     def compute_impact(self, brands):
         """
+        Total impact for a brand is measured as a function of
+        position of the logo
+        area consumed by the logo
+        diversion penalty (if there are more than one logo there is slight penalty)
+        visibility of the logo, (if its partly visible => partial score)
 
         :param brands:
             "brands": [
@@ -81,10 +94,10 @@ class BrandImpact:
         """
         response = dict()
         for brand in brands:
-            response[brand['name']] = 0.0
-            # bounding_box = brand.bounding_box
-            # response[brand.name] = self.position_score(bounding_box) \
-            #                        * self.consumption_score(bounding_box) \
-            #                        * self.diversion_score(brands)
+            bounding_box = brand['bounding_box']
+            response[brand['name']] = self.position_score(bounding_box) \
+                                      * self.consumption_score(bounding_box) \
+                                      * self.diversion_score(brands) \
+                                      * brand.get('visibility', 1)
 
         return response
