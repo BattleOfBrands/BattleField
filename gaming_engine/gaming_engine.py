@@ -10,9 +10,31 @@ import json
 
 
 class Game:
-    def __init__(self):
-        self.web_driver = self.create_web_driver()
-        self.time_in_sec = 0
+    def __init__(self, video=None):
+        if video is None:
+            self.web_driver = self.create_web_driver()
+            self.begin_game()
+        else:
+            self.video_to_image(video, "video_images")
+
+    def video_to_image(self, video_path, save_to):
+        cap = cv2.VideoCapture(video_path)
+        fps = cap.get(5)
+        count = 0
+        while (cap.isOpened()):
+            skip_frames = fps
+
+            while(skip_frames > 0):
+                skip_frames = skip_frames -1
+                cap.read()
+
+            ret, frame = cap.read()
+            cv2.imwrite(save_to+'/frame{:d}.jpg'.format(count), frame)
+            count = count + 1
+
+        cap.release()
+        cv2.destroyAllWindows()
+
 
     @staticmethod
     def create_web_driver():
@@ -28,19 +50,18 @@ class Game:
 
         return driver
 
-    def begin_game(self):
+    def begin_game(self, save_to):
+        count = 0
         while True:
-            self.time_in_sec = self.time_in_sec+1
-            self.web_driver.save_screenshot("image.png")
+            count = count + 1
+            self.web_driver.save_screenshot(save_to+"/"+str(count)+".jpg")
             # image = Image.open("image.png")
             # print(image)
-            # # TODO possible do multi-processing over here?
-            data = self.process_image(self.time_in_sec, "image.png")
-            print(data)
-            self.write_to_json(data)
+            # data = self.process_image(self.time_in_sec, "image.png")
+            # print(data)
+            # self.write_to_json(data)
             # cv2.resize(image, (250, 174))
             # cv2.imshow('Game', image)
-
             time.sleep(1)
             # cv2.destroyAllWindows()
 
@@ -89,5 +110,6 @@ class Game:
         with open('test.json', 'w') as f:
             json.dump(file_data, f)
 
-game = Game()
-game.begin_game()
+game = Game(video="/Users/hareesh/Timbuctoo/BattleOfBrands/BattleField/video.mp4")
+game
+# game.begin_game()
