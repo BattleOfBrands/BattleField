@@ -8,8 +8,9 @@ import logging
 import json
 import torch
 BRAND_NAMES = ["dream11"] #, "paytm", "cred", "unacademy", "altroz"
-DATASET = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/logos/training/"
+DATASET = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/match/*.jpg"
 LOGOS_PATH = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/logos/training/"
+SAVE_TO = "summary.json"
 
 class ImageProcessor:
     def __init__(self):
@@ -47,18 +48,15 @@ class ImageProcessor:
         :return:
         """
         response = dict()
-        return {"Hello": "World"}
-        # if image is None:
-        #     image = glob.glob("/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/match/*.jpg")[1]
-        #
-        # for brand_name in self.logo_identifiers:
-        #     boxes = self.logo_identifiers[brand_name].identify_logos(image)
-        #     response[brand_name] = self.get_bounding_boxes(boxes)
-        #
-        # return response
+
+        for brand_name in self.logo_identifiers:
+            boxes = self.logo_identifiers[brand_name].identify_logos(image)
+            response[brand_name] = self.get_bounding_boxes(boxes)
+
+        return response
 
     def start_processor(self):
-        images = glob.glob(DATASET+"/*.jpg")
+        images = glob.glob(DATASET)
         batch_size = 100
         buffer = dict()
         for image_path in images:
@@ -72,12 +70,12 @@ class ImageProcessor:
 
     def write_to_json(self, data):
 
-        with open('test.json') as f:
+        with open(SAVE_TO) as f:
             file_data = json.load(f)
 
         file_data.update(data)
 
-        with open('test.json', 'w') as f:
+        with open(SAVE_TO, 'w') as f:
             json.dump(file_data, f)
 
 
