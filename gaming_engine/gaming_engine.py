@@ -10,12 +10,12 @@ import json
 
 
 class Game:
-    def __init__(self, video=None):
+    def __init__(self, video=None, save_to="/tmp"):
         if video is None:
             self.web_driver = self.create_web_driver()
-            self.begin_game()
+            self.begin_game(save_to)
         else:
-            self.video_to_image(video, "video_images")
+            self.video_to_image(video, save_to)
 
     def video_to_image(self, video_path, save_to):
         cap = cv2.VideoCapture(video_path)
