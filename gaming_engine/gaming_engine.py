@@ -111,5 +111,4 @@ class Game:
             json.dump(file_data, f)
 
 game = Game(video="/Users/hareesh/Timbuctoo/BattleOfBrands/BattleField/video.mp4")
-game
 # game.begin_game()
