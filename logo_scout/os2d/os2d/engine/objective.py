@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from logo_scout.os2d.os2d.utils import masked_select_or_fill_constant
+from os2d.utils import masked_select_or_fill_constant
 
 
 class Os2dObjective(nn.Module):

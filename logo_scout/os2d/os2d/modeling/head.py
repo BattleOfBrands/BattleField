@@ -5,8 +5,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from .box_coder import Os2dBoxCoder, BoxGridGenerator
-from logo_scout.os2d.os2d.structures.feature_map import FeatureMapSize
-from logo_scout.os2d.os2d.structures.bounding_box import BoxList, cat_boxlist
+from os2d.structures.feature_map import FeatureMapSize
+from os2d.structures.bounding_box import BoxList, cat_boxlist
 
 
 def build_os2d_head_creator(do_simple_affine, is_cuda, use_inverse_geom_model, feature_map_stride, feature_map_receptive_field):

@@ -21,7 +21,7 @@ cfg.model.use_inverse_geom_model = True
 # Use the TransformNet for the simplified affine transform - only translation and scaling defined by 4 parameters
 cfg.model.use_simplified_affine_model = False
 # Resize class images with preserving the aspect ratio such that the product of dimentions equals class_image_size squared
-cfg.model.class_image_size = 100
+cfg.model.class_image_size = 240
 # Use Group Normalization instead of BatchNorm
 cfg.model.use_group_norm = False
 # normalization

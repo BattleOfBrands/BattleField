@@ -6,8 +6,8 @@ import torch
 
 from torchvision.models.detection._utils import Matcher, BoxCoder, encode_boxes
 
-from logo_scout.os2d.os2d.structures.bounding_box import BoxList, cat_boxlist, boxlist_iou, nms
-from logo_scout.os2d.os2d.utils import masked_select_or_fill_constant
+from os2d.structures.bounding_box import BoxList, cat_boxlist, boxlist_iou, nms
+from os2d.utils import masked_select_or_fill_constant
 
 
 BOX_ENCODING_WEIGHTS = torch.tensor([10, 10, 5, 5])

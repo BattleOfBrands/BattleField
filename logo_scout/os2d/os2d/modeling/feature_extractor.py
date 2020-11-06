@@ -4,7 +4,7 @@ import torch
 
 from torchvision.models.resnet import ResNet, resnet50, resnet101
 
-from logo_scout.os2d.os2d.structures.feature_map import FeatureMapSize
+from os2d.structures.feature_map import FeatureMapSize
 
 
 GROUPNORM_NUMGROUPS = 32
