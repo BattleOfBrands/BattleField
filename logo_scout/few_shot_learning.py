@@ -71,6 +71,8 @@ class FewShotDetection:
         return boxes
 
     def load_logos(self, logos_path):
+        if len(logos_path) == 0:
+            print("No logos found in the path")
         class_images_th = []
         for logo_path in logos_path:
             class_image = read_image(logo_path)
@@ -186,7 +188,7 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
             height = bb[3] - bb[1]
 
             print(int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))
-            img.crop((int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))).save(new_logo)
+            # img.crop((int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))).save(new_logo)
 
             box_color = 'red' if colors is None else colors[i]
             ax.add_patch(plt.Rectangle(
@@ -247,6 +249,3 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
 
     return fig
 
-
-few_shot = FewShotDetection(["tests/test_data/logos/altroz/Screen Shot 2020-10-29 at 1.14.39 AM.png"])
-few_shot.identify_logos("tests/test_data/match_images/altroz.png")

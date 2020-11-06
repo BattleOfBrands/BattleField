@@ -7,9 +7,9 @@ from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
 import logging
 import json
 import torch
-BRAND_NAMES = ["dream11"] #, "paytm", "cred", "unacademy", "altroz"
-DATASET = "dataset/match/*.jpg"
-LOGOS_PATH = "dataset/logos/training/"
+BRAND_NAMES = ["dream11", "paytm", "cred", "unacademy", "altroz"]
+DATASET = "tests/test_data/match_images/*.png"
+LOGOS_PATH = "tests/test_data/logos/"
 SAVE_TO = "summary.json"
 
 class ImageProcessor:
@@ -23,7 +23,7 @@ class ImageProcessor:
     def set_up(self, brand_names):
         identifier = dict()
         for brand_name in brand_names:
-            logo_paths = glob.glob( self.logos_path + brand_name + "/*.png")
+            logo_paths = glob.glob(LOGOS_PATH+brand_name + "/*.png")
             identifier[brand_name] = FewShotDetection(logo_paths)
         return identifier
 
