@@ -1,21 +1,15 @@
-import os
-import argparse
-import matplotlib.pyplot as plt
-
 import torch
 import torchvision.transforms as transforms
 
 from logo_scout.os2d.os2d.modeling.model import build_os2d_from_config
 from logo_scout.os2d.os2d.config import cfg
-import  logo_scout.os2d.os2d.utils.visualization as visualizer
-from logo_scout.os2d.os2d.structures.feature_map import FeatureMapSize
 from logo_scout.os2d.os2d.utils import setup_logger, read_image, get_image_size_after_resize_preserving_aspect_ratio
 
 logger = setup_logger("OS2D")
 
 
 cfg.is_cuda = torch.cuda.is_available()
-cfg.init.model = "models/os2d_v2-train.pth"
+cfg.init.model = "logo_scout/os2d/models/os2d_v2-train.pth"
 net, box_coder, criterion, img_normalization, optimizer_state = build_os2d_from_config(cfg)
 
 
@@ -296,30 +290,22 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
 import glob
 import random
 
-for _ in range(10):
-  brand_name = random.choice( ["dream11"])
-  print(brand_name)
-  logo_paths = glob.glob("/content/drive/My Drive/BattleofBrands/Dataset/logos/predicted/"+brand_name+"/*.jpg")
+logo_paths = glob.glob("tests/test_data/unit_test_data/*.png")
 
-  image_paths = glob.glob("/content/drive/My Drive/BattleofBrands/Dataset/SampleMatch/data_31/*.jpg")
+image_paths = glob.glob("tests/test_data/integration_data/*.png")
 
 
-  def get_random_string(length):
-      letters = string.ascii_lowercase
-      result_str = ''.join(random.choice(letters) for i in range(length))
-      result_str = "/content/drive/My Drive/BattleofBrands/Dataset/logos/predicted/"+brand_name+"/"+result_str+".jpg"
-      return result_str
+def get_random_string(length):
+  letters = string.ascii_lowercase
+  result_str = ''.join(random.choice(letters) for i in range(length))
+  result_str = "tests/test_data/integration_data/1.jpg"
+  return result_str
 
 
 
-  class_images = [read_image(random.choice(logo_paths)) for _ in range(10)]
-  class_ids = [i for i in range(0, len(class_images))]
+class_images = [read_image(logo_path) for logo_path in logo_paths]
+class_ids = [i for i in range(0, len(class_images))]
 
-  count = 0
-  for __ in range(250):
-    image_path = random.choice(image_paths)
-    count = count+1
-    if count %50 ==0:
-      print(count)
+for image_path in image_paths:
     input_image = read_image(image_path)
     test_(input_image, class_images, class_ids)

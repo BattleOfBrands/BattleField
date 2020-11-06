@@ -1,29 +1,29 @@
 from random import randint
 import glob
-from logo_scout.os2d.few_shot_detection import FewShotDetection
+from logo_scout.few_shot_learning import FewShotDetection
 from logo_scout.os2d.os2d.utils import visualization
 from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
 
 import logging
 import json
 import torch
-BRAND_NAMES = ["dream11"] #, "paytm", "cred", "unacademy", "altroz"
-DATASET = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/match/*.jpg"
-LOGOS_PATH = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/logos/training/"
-SAVE_TO = "summary.json"
+BRAND_NAMES = ["dream11", "paytm", "cred", "unacademy", "altroz"]
+DATASET = "tests/test_data/match_images/*.png"
+LOGOS_PATH = "tests/test_data/logos/"
+SAVE_TO = "report.json"
 
 class ImageProcessor:
-    def __init__(self, brand_names=BRAND_NAMES, dataset=DATASET, save_to=SAVE_TO, logos_path=LOGOS_PATH):
-        self.logo_identifiers = self.set_up(BRAND_NAMES)
-        self.data_set = DATASET
+    def __init__(self, brand_names, dataset, save_to, logos_path):
+        self.logo_identifiers = self.set_up(brand_names)
+        self.data_set = dataset
         self.brand_names = brand_names
-        self.save_to = SAVE_TO
-        self.logos_path = LOGOS_PATH
+        self.save_to = save_to
+        self.logos_path = logos_path
 
     def set_up(self, brand_names):
         identifier = dict()
         for brand_name in brand_names:
-            logo_paths = glob.glob( self.logos_path + brand_name + "/*.png")
+            logo_paths = glob.glob(LOGOS_PATH+brand_name + "/*.png")
             identifier[brand_name] = FewShotDetection(logo_paths)
         return identifier
 
@@ -39,10 +39,16 @@ class ImageProcessor:
         else:
             boxes = BoxList.create_empty(boxes.image_size)
 
-        boxes = boxes.bbox_xyxy
+        return self.bounding_boxes(boxes)
 
-        # boxes = [list(box) for box in boxes]
-        return boxes
+    def bounding_boxes(self, boxes):
+        bouding_boxes = list()
+        for bounding_box in boxes.bbox_xyxy:
+            b_box = list()
+            for cord in bounding_box:
+                b_box.append(int(cord))
+            bouding_boxes.append(b_box)
+        return bouding_boxes
 
     def detect_logos(self, image=None):
         """
@@ -60,7 +66,7 @@ class ImageProcessor:
 
     def start_processor(self):
         images = glob.glob(self.data_set)
-        batch_size = 100
+        batch_size = 1
         buffer = dict()
         for image_path in images:
             buffer[image_path] = self.detect_logos(image_path)
@@ -82,5 +88,5 @@ class ImageProcessor:
             json.dump(file_data, f)
 
 
-image_processor = ImageProcessor()
+image_processor = ImageProcessor(brand_names=BRAND_NAMES, dataset=DATASET, save_to=SAVE_TO, logos_path=LOGOS_PATH)
 image_processor.start_processor()

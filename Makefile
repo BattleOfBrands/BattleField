@@ -43,7 +43,7 @@ test_integration:
 	@echo "Integration tests done"
 
 run:
-	$(VENV_ACTIVATE); $(PYTHON) API.py
+	$(VENV_ACTIVATE); $(PYTHON) logo_scout/image_processor.py
 
 build_docker:
 	docker build -t logo_scout:latest .
