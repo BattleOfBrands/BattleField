@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import torch
 import torchvision
 
-from os2d.structures.feature_map import FeatureMapSize
-from os2d.structures.bounding_box import cat_boxlist, BoxList
-from os2d.config import cfg
+from logo_scout.os2d.os2d.structures.feature_map import FeatureMapSize
+from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
+from logo_scout.os2d.os2d.config import cfg
 
 
 def show_mined_patches(image_id, class_ids, dataloader, hardnegdata):
