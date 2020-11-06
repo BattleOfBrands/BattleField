@@ -1,6 +1,6 @@
 from random import randint
 import glob
-from logo_scout.os2d.few_shot_detection import FewShotDetection
+from logo_scout.few_shot_detection import FewShotDetection
 from logo_scout.os2d.os2d.utils import visualization
 from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
 
