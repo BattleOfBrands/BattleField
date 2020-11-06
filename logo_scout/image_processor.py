@@ -10,7 +10,7 @@ import torch
 BRAND_NAMES = ["dream11", "paytm", "cred", "unacademy", "altroz"]
 DATASET = "tests/test_data/match_images/*.png"
 LOGOS_PATH = "tests/test_data/logos/"
-SAVE_TO = "summary.json"
+SAVE_TO = "report.json"
 
 class ImageProcessor:
     def __init__(self, brand_names, dataset, save_to, logos_path):

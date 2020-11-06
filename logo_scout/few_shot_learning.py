@@ -1,6 +1,7 @@
 import torch
 import torchvision
 import torchvision.transforms as transforms
+import numpy as np
 
 from logo_scout.os2d.os2d.modeling.model import build_os2d_from_config
 from logo_scout.os2d.os2d.config import cfg
@@ -42,6 +43,10 @@ class FewShotDetection:
             input_image_th = input_image_th.cuda()
         return input_image_th
 
+    def box_to_list(self, boxes):
+        result = list()
+
+        return result
 
     def identify_logos(self, image_path):
         input_image_th = self.pre_process_input_image(image_path)
@@ -82,6 +87,7 @@ class FewShotDetection:
 
             class_images_th.append(class_image_th)
         return class_images_th
+
 
 def show_detections(boxes, image_to_show,
                     cfg_visualization,
@@ -243,9 +249,9 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
     # turne off axes
     plt.axis('off')
 
-    # Show
-    if showfig:
-        plt.show()
+    # # Show
+    # if showfig:
+    #     plt.show()
 
     return fig
 
