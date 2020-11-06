@@ -13,9 +13,9 @@ import torch.nn.functional as F
 from .feature_extractor import build_feature_extractor
 
 from .box_coder import Os2dBoxCoder, BoxGridGenerator
-from os2d.engine.objective import Os2dObjective
-from os2d.utils import count_model_parameters, masked_select_or_fill_constant
-from os2d.structures.feature_map import FeatureMapSize
+from logo_scout.os2d.os2d.engine.objective import Os2dObjective
+from logo_scout.os2d.os2d.utils import count_model_parameters, masked_select_or_fill_constant
+from logo_scout.os2d.os2d.structures.feature_map import FeatureMapSize
 from .head import build_os2d_head_creator
 
 
