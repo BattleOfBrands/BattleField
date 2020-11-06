@@ -39,10 +39,16 @@ class ImageProcessor:
         else:
             boxes = BoxList.create_empty(boxes.image_size)
 
-        boxes = boxes.bbox_xyxy
+        return self.bounding_boxes(boxes)
 
-        # boxes = [list(box) for box in boxes]
-        return boxes
+    def bounding_boxes(self, boxes):
+        bouding_boxes = list()
+        for bounding_box in boxes.bbox_xyxy:
+            b_box = list()
+            for cord in bounding_box:
+                b_box.append(int(cord))
+            bouding_boxes.append(b_box)
+        return bouding_boxes
 
     def detect_logos(self, image=None):
         """
@@ -60,7 +66,7 @@ class ImageProcessor:
 
     def start_processor(self):
         images = glob.glob(self.data_set)
-        batch_size = 100
+        batch_size = 1
         buffer = dict()
         for image_path in images:
             buffer[image_path] = self.detect_logos(image_path)
