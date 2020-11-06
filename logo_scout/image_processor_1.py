@@ -1,18 +1,3 @@
-from random import randint
-import glob
-from logo_scout.os2d.few_shot_detection import FewShotDetection
-from logo_scout.os2d.os2d.utils import visualization
-from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
-
-import logging
-import json
-import torch
-BRAND_NAMES = ["dream11"] #, "paytm", "cred", "unacademy", "altroz"
-DATASET = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/match/*.jpg"
-LOGOS_PATH = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/logos/training/"
-SAVE_TO = "summary.json"
-
-
 import os
 import argparse
 import matplotlib.pyplot as plt
@@ -91,7 +76,7 @@ def test_(input_image, class_images, class_ids):
                                             nms_score_threshold=cfg.eval.nms_score_threshold,
                                             transform_corners_pyramid=transform_corners_pyramid)
 
-  # remove some fields to lighten visualization
+  # remove some fields to lighten visualization                                       
   boxes.remove_field("default_boxes")
 
 
@@ -244,8 +229,9 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
             width = bb[2] - bb[0]
             height = bb[3] - bb[1]
 
-            # new_logo = get_random_string(8)
-            # img.crop((int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))).save(new_logo)
+            new_logo = get_random_string(8)
+            print(int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))
+            img.crop((int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))).save(new_logo)
 
             box_color = 'red' if colors is None else colors[i]
             ax.add_patch(plt.Rectangle(
@@ -306,30 +292,34 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
 
     return fig
 
+
 import glob
 import random
-DATASET = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/match/*.jpg"
-LOGOS_PATH = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/logos/training/"
+
+for _ in range(10):
+  brand_name = random.choice( ["dream11"])
+  print(brand_name)
+  logo_paths = glob.glob("/content/drive/My Drive/BattleofBrands/Dataset/logos/predicted/"+brand_name+"/*.jpg")
+
+  image_paths = glob.glob("/content/drive/My Drive/BattleofBrands/Dataset/SampleMatch/data_31/*.jpg")
+
+
+  def get_random_string(length):
+      letters = string.ascii_lowercase
+      result_str = ''.join(random.choice(letters) for i in range(length))
+      result_str = "/content/drive/My Drive/BattleofBrands/Dataset/logos/predicted/"+brand_name+"/"+result_str+".jpg"
+      return result_str
 
 
 
-logo_paths = glob.glob(LOGOS_PATH+"dream11"+"/*.png")
+  class_images = [read_image(random.choice(logo_paths)) for _ in range(10)]
+  class_ids = [i for i in range(0, len(class_images))]
 
-image_paths = glob.glob(DATASET)
-
-
-def get_random_string(length):
-  letters = string.ascii_lowercase
-  result_str = ''.join(random.choice(letters) for i in range(length))
-  result_str = "/content/drive/My Drive/BattleofBrands/Dataset/logos/predicted/"+"dream11"+"/"+result_str+".jpg"
-  return result_str
-
-
-
-class_images = [read_image(_) for _ in logo_paths]
-class_ids = [i for i in range(0, len(class_images))]
-
-for image_path in image_paths:
-
+  count = 0
+  for __ in range(250):
+    image_path = random.choice(image_paths)
+    count = count+1
+    if count %50 ==0:
+      print(count)
     input_image = read_image(image_path)
     test_(input_image, class_images, class_ids)
