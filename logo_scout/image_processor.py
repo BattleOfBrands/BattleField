@@ -13,14 +13,17 @@ LOGOS_PATH = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/logos/training/"
 SAVE_TO = "summary.json"
 
 class ImageProcessor:
-    def __init__(self):
+    def __init__(self, brand_names=BRAND_NAMES, dataset=DATASET, save_to=SAVE_TO, logos_path=LOGOS_PATH):
         self.logo_identifiers = self.set_up(BRAND_NAMES)
         self.data_set = DATASET
+        self.brand_names = brand_names
+        self.save_to = SAVE_TO
+        self.logos_path = LOGOS_PATH
 
     def set_up(self, brand_names):
         identifier = dict()
         for brand_name in brand_names:
-            logo_paths = glob.glob( LOGOS_PATH + brand_name + "/*.png")
+            logo_paths = glob.glob( self.logos_path + brand_name + "/*.png")
             identifier[brand_name] = FewShotDetection(logo_paths)
         return identifier
 
@@ -56,7 +59,7 @@ class ImageProcessor:
         return response
 
     def start_processor(self):
-        images = glob.glob(DATASET)
+        images = glob.glob(self.data_set)
         batch_size = 100
         buffer = dict()
         for image_path in images:
@@ -70,12 +73,12 @@ class ImageProcessor:
 
     def write_to_json(self, data):
 
-        with open(SAVE_TO) as f:
+        with open(self.save_to) as f:
             file_data = json.load(f)
 
         file_data.update(data)
 
-        with open(SAVE_TO, 'w') as f:
+        with open(self.save_to, 'w') as f:
             json.dump(file_data, f)
 
 
