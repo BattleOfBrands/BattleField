@@ -1,6 +1,6 @@
 from random import randint
 import glob
-from logo_scout.few_shot_detection import FewShotDetection
+from logo_scout.few_shot_learning import FewShotDetection
 from logo_scout.os2d.os2d.utils import visualization
 from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
 
@@ -8,17 +8,17 @@ import logging
 import json
 import torch
 BRAND_NAMES = ["dream11"] #, "paytm", "cred", "unacademy", "altroz"
-DATASET = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/match/*.jpg"
-LOGOS_PATH = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/logos/training/"
+DATASET = "dataset/match/*.jpg"
+LOGOS_PATH = "dataset/logos/training/"
 SAVE_TO = "summary.json"
 
 class ImageProcessor:
-    def __init__(self, brand_names=BRAND_NAMES, dataset=DATASET, save_to=SAVE_TO, logos_path=LOGOS_PATH):
-        self.logo_identifiers = self.set_up(BRAND_NAMES)
-        self.data_set = DATASET
+    def __init__(self, brand_names, dataset, save_to, logos_path):
+        self.logo_identifiers = self.set_up(brand_names)
+        self.data_set = dataset
         self.brand_names = brand_names
-        self.save_to = SAVE_TO
-        self.logos_path = LOGOS_PATH
+        self.save_to = save_to
+        self.logos_path = logos_path
 
     def set_up(self, brand_names):
         identifier = dict()
@@ -82,5 +82,5 @@ class ImageProcessor:
             json.dump(file_data, f)
 
 
-image_processor = ImageProcessor()
+image_processor = ImageProcessor(brand_names=BRAND_NAMES, dataset=DATASET, save_to=SAVE_TO, logos_path=LOGOS_PATH)
 image_processor.start_processor()
