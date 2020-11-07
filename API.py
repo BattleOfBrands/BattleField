@@ -7,7 +7,7 @@ from fastapi import FastAPI, File, UploadFile, Response
 from fastapi.responses import HTMLResponse
 
 from gaming_engine.gaming_engine import Game
-from logo_scout.image_processor import ImageProcessor
+from image_processor import ImageProcessor
 from PIL import Image
 
 

@@ -1,5 +1,5 @@
 import unittest
-from logo_scout.image_processor import ImageProcessor
+from image_processor import ImageProcessor
 
 TEST_DATA_PATH = "tests/test_data/integration_data/"
 

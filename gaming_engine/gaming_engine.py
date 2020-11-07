@@ -1,8 +1,6 @@
-from logo_scout.image_processor import ImageProcessor
+from image_processor import ImageProcessor
 from brand_impact.metric import BrandImpact
 from selenium import webdriver
-from random import randint
-from PIL import Image
 
 import cv2
 import time
