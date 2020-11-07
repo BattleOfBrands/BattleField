@@ -28,7 +28,7 @@ class Game:
             skip_frames = fps
 
             count = count + 1
-            if count%100 ==0:
+            if count%100 == 0:
                 print("Processed ", count)
 
             ret, frame = cap.read()
