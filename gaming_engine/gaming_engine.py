@@ -17,20 +17,26 @@ class Game:
         else:
             self.video_to_image(video, save_to)
 
+
     def video_to_image(self, video_path, save_to):
         cap = cv2.VideoCapture(video_path)
         fps = cap.get(5)
         count = 0
-        while (cap.isOpened()):
+
+        ret, frame = cap.read()
+        while (ret):
             skip_frames = fps
 
-            while(skip_frames > 0):
-                skip_frames = skip_frames -1
-                cap.read()
+            count = count + 1
+            if count%100 ==0:
+                print("Processed ", count)
 
             ret, frame = cap.read()
             cv2.imwrite(save_to+'/frame{:d}.jpg'.format(count), frame)
-            count = count + 1
+
+            while(skip_frames > 0):
+                skip_frames = skip_frames -1
+                _,_ = cap.read()
 
         cap.release()
         cv2.destroyAllWindows()
