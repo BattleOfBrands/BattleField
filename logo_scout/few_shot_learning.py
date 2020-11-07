@@ -2,7 +2,7 @@ import torch
 import torchvision
 import torchvision.transforms as transforms
 import numpy as np
-
+import string
 from logo_scout.os2d.os2d.modeling.model import build_os2d_from_config
 from logo_scout.os2d.os2d.config import cfg
 from logo_scout.os2d.os2d.utils import setup_logger, read_image, get_image_size_after_resize_preserving_aspect_ratio
@@ -10,6 +10,7 @@ from logo_scout.os2d.os2d.utils import setup_logger, read_image, get_image_size_
 from logo_scout.os2d.os2d.structures.feature_map import FeatureMapSize
 from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
 import matplotlib.pyplot as plt
+import random
 
 logger = setup_logger("OS2D")
 
@@ -20,12 +21,13 @@ net, box_coder, criterion, img_normalization, optimizer_state = build_os2d_from_
 
 
 class FewShotDetection:
-    def __init__(self, logos_path):
+    def __init__(self, logos_path, name=None):
         self.transformer = transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize(img_normalization["mean"], img_normalization["std"])
         ])
         self.logos = self.load_logos(logos_path)
+        self.name = name
 
     def transform_image(self, input_image, target_size):
         h, w = get_image_size_after_resize_preserving_aspect_ratio(h=input_image.size[1],
@@ -71,7 +73,7 @@ class FewShotDetection:
         cfg.visualization.eval.max_detections = 8
         cfg.visualization.eval.score_threshold = float(0.6)
         show_detections(boxes, read_image(image_path),
-                        cfg.visualization.eval)
+                        cfg.visualization.eval, brand_name=self.name)
 
         return boxes
 
@@ -91,7 +93,7 @@ class FewShotDetection:
 
 def show_detections(boxes, image_to_show,
                     cfg_visualization,
-                    class_ids=None, image_id=None):
+                    class_ids=None, image_id=None, brand_name=None):
     labels = boxes.get_field("labels").clone()
     scores = boxes.get_field("scores").clone()
 
@@ -110,12 +112,13 @@ def show_detections(boxes, image_to_show,
                          score_threshold=cfg_visualization.score_threshold,
                          max_dets=cfg_visualization.max_detections,
                          showfig=True,
-                         image_id=image_id)
+                         image_id=image_id,
+                         brand_name=brand_name)
 
 
 def show_annotated_image(img, boxes, labels, scores, class_ids, score_threshold=0.0,
                          default_boxes=None, transform_corners=None,
-                         max_dets=None, showfig=False, image_id=None):
+                         max_dets=None, showfig=False, image_id=None, brand_name=None):
     good_ids = torch.nonzero(scores.float() > score_threshold).view(-1)
     if good_ids.numel() > 0:
         if max_dets is not None:
@@ -157,12 +160,13 @@ def show_annotated_image(img, boxes, labels, scores, class_ids, score_threshold=
               label_names=label_names,
               colors=box_colors,
               image_id=image_id,
-              polygons=transform_corners
+              polygons=transform_corners,
+              brand_name=brand_name
               )
     return
 
 
-def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image_id=None, polygons=None, showfig=False):
+def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image_id=None, polygons=None, showfig=False, brand_name=None):
     """Visualize a color image.
 
     Args:
@@ -193,8 +197,12 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
             width = bb[2] - bb[0]
             height = bb[3] - bb[1]
 
+            new_logo = get_random_string()
+            if brand_name is not None:
+                new_logo = brand_name+"/"+new_logo
+            new_logo = "images/"+new_logo
             print(int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))
-            # img.crop((int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))).save(new_logo)
+            img.crop((int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))).save(new_logo)
 
             box_color = 'red' if colors is None else colors[i]
             ax.add_patch(plt.Rectangle(
@@ -255,3 +263,7 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
 
     return fig
 
+def get_random_string():
+    letters = string.ascii_lowercase
+    result_str = ''.join(random.choice(letters) for i in range(8))
+    return result_str+".png"

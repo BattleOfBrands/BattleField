@@ -8,7 +8,7 @@ import logging
 import json
 import torch
 BRAND_NAMES = ["dream11", "paytm", "cred", "unacademy", "altroz"]
-DATASET = "tests/test_data/match_images/*.png"
+DATASET = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/match/data_31/*.jpg"
 LOGOS_PATH = "tests/test_data/logos/"
 SAVE_TO = "report.json"
 
@@ -24,7 +24,7 @@ class ImageProcessor:
         identifier = dict()
         for brand_name in brand_names:
             logo_paths = glob.glob(LOGOS_PATH+brand_name + "/*.png")
-            identifier[brand_name] = FewShotDetection(logo_paths)
+            identifier[brand_name] = FewShotDetection(logo_paths, name=brand_name)
         return identifier
 
     def get_bounding_boxes(self, boxes, score_threshold=0.65, max_dets=8):
