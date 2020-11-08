@@ -199,7 +199,7 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
 
             new_logo = get_random_string()
             if brand_name is not None:
-                new_logo = brand_name+"/"+new_logo
+                new_logo = brand_name+"/"+new_logo+".jpg"
             new_logo = "images/"+new_logo
             print(int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))
             img.crop((int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))).save(new_logo)

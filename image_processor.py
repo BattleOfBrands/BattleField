@@ -23,7 +23,7 @@ class ImageProcessor:
     def set_up(self, brand_names):
         identifier = dict()
         for brand_name in brand_names:
-            logo_paths = glob.glob(LOGOS_PATH+brand_name + "/*.png")
+            logo_paths = glob.glob(LOGOS_PATH+brand_name + "/*.jpg")
             identifier[brand_name] = FewShotDetection(logo_paths, name=brand_name)
         return identifier
 
