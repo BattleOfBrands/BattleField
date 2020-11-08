@@ -258,8 +258,8 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
     plt.axis('off')
 
     # # Show
-    # if showfig:
-    #     plt.show()
+    if showfig:
+        plt.show()
 
     return fig
 

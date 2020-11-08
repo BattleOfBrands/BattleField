@@ -290,15 +290,15 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
 import glob
 import random
 
-logo_paths = glob.glob("tests/test_data/unit_test_data/*.png")
+logo_paths = glob.glob("tests/test_data/logos/unacademy/*.png")
 
-image_paths = glob.glob("tests/test_data/integration_data/*.png")
+image_paths = glob.glob("/home/meh/dataset/data_31/*.jpg")
 
 
 def get_random_string(length):
   letters = string.ascii_lowercase
   result_str = ''.join(random.choice(letters) for i in range(length))
-  result_str = "tests/test_data/integration_data/1.jpg"
+  result_str = "images/unacadmey/"+result_str+".jpg"
   return result_str
 
 
@@ -306,6 +306,9 @@ def get_random_string(length):
 class_images = [read_image(logo_path) for logo_path in logo_paths]
 class_ids = [i for i in range(0, len(class_images))]
 
+count = 1
 for image_path in image_paths:
+    if count%10 ==0:
+        print(count)
     input_image = read_image(image_path)
     test_(input_image, class_images, class_ids)

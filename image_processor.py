@@ -7,8 +7,8 @@ from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
 import logging
 import json
 import torch
-BRAND_NAMES = ["dream11", "paytm", "cred", "unacademy", "altroz"]
-DATASET = "dataset/match/data_31/*.jpg"
+BRAND_NAMES = ["paytm"]
+DATASET = "/home/meh/dataset/data_31"
 LOGOS_PATH = "tests/test_data/logos/"
 SAVE_TO = "report.json"
 
