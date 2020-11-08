@@ -7,8 +7,8 @@ from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
 import logging
 import json
 import torch
-BRAND_NAMES = ["paytm"]
-DATASET = "/home/meh/dataset/data_31"
+BRAND_NAMES = ["cred"]
+DATASET = "tests/test_data/match_images/*.png"
 LOGOS_PATH = "tests/test_data/logos/"
 SAVE_TO = "report.json"
 
@@ -27,7 +27,7 @@ class ImageProcessor:
             identifier[brand_name] = FewShotDetection(logo_paths, name=brand_name)
         return identifier
 
-    def get_bounding_boxes(self, boxes, score_threshold=0.65, max_dets=8):
+    def get_bounding_boxes(self, boxes, score_threshold=0.6, max_dets=8):
         scores = boxes.get_field("scores").clone()
 
         good_ids = torch.nonzero(scores.float() > score_threshold).view(-1)
@@ -72,8 +72,9 @@ class ImageProcessor:
             buffer[image_path] = self.detect_logos(image_path)
             batch_size = batch_size - 1
             if batch_size == 0:
+                print('.')
                 self.write_to_json(buffer)
-                batch_size = 100
+                batch_size = 10
                 buffer = dict()
         self.write_to_json(buffer)
 

@@ -51,7 +51,16 @@ class FewShotDetection:
         return result
 
     def identify_logos(self, image_path):
-        input_image_th = self.pre_process_input_image(image_path)
+
+        input_image = read_image(image_path)
+        h, w = get_image_size_after_resize_preserving_aspect_ratio(h=input_image.size[1],
+                                                                   w=input_image.size[0],
+                                                                   target_size=1500)
+        input_image = input_image.resize((w, h))
+
+        input_image_th = self.transformer(input_image)
+        input_image_th = input_image_th.unsqueeze(0)
+
         with torch.no_grad():
             loc_prediction_batch, class_prediction_batch, _, fm_size, transform_corners_batch = net(
                 images=input_image_th, class_images=self.logos)
@@ -72,7 +81,7 @@ class FewShotDetection:
 
         cfg.visualization.eval.max_detections = 8
         cfg.visualization.eval.score_threshold = float(0.6)
-        show_detections(boxes, read_image(image_path),
+        show_detections(boxes, input_image,
                         cfg.visualization.eval, brand_name=self.name)
 
         return boxes
@@ -199,9 +208,9 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
 
             new_logo = get_random_string()
             if brand_name is not None:
-                new_logo = brand_name+"/"+new_logo+".jpg"
+                new_logo = brand_name+"/"+new_logo
             new_logo = "images/"+new_logo
-            print(int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))
+            # print(int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))
             img.crop((int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))).save(new_logo)
 
             box_color = 'red' if colors is None else colors[i]
@@ -258,8 +267,8 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
     plt.axis('off')
 
     # # Show
-    if showfig:
-        plt.show()
+    # if showfig:
+    #     plt.show()
 
     return fig
 
