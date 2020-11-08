@@ -292,7 +292,7 @@ import random
 
 logo_paths = glob.glob("tests/test_data/logos/altroz/*.png")
 
-image_paths = glob.glob("/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/match/data_31/*jpg")
+image_paths = glob.glob("../dataset/match/data_31/*jpg")
 
 
 def get_random_string(length):
