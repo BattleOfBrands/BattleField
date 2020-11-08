@@ -1,5 +1,6 @@
 from random import randint
 import glob
+import time
 from logo_scout.few_shot_learning import FewShotDetection
 from logo_scout.os2d.os2d.utils import visualization
 from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
@@ -7,7 +8,7 @@ from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
 import logging
 import json
 import torch
-BRAND_NAMES = ["cred"]
+BRAND_NAMES = ["cred", "paytm", "dream11"]
 DATASET = "tests/test_data/match_images/*.png"
 LOGOS_PATH = "tests/test_data/logos/"
 SAVE_TO = "report.json"
@@ -23,7 +24,7 @@ class ImageProcessor:
     def set_up(self, brand_names):
         identifier = dict()
         for brand_name in brand_names:
-            logo_paths = glob.glob(LOGOS_PATH+brand_name + "/*.jpg")
+            logo_paths = glob.glob(LOGOS_PATH+brand_name + "/*.png")
             identifier[brand_name] = FewShotDetection(logo_paths, name=brand_name)
         return identifier
 
@@ -65,10 +66,12 @@ class ImageProcessor:
         return response
 
     def start_processor(self):
-        images = glob.glob(self.data_set)
+        images = glob.glob(self.data_set) #["tests/test_data/match_images/cred.png"]
         batch_size = 1
         buffer = dict()
+        start_time = time.time()
         for image_path in images:
+            print(image_path)
             buffer[image_path] = self.detect_logos(image_path)
             batch_size = batch_size - 1
             if batch_size == 0:
@@ -76,6 +79,7 @@ class ImageProcessor:
                 self.write_to_json(buffer)
                 batch_size = 10
                 buffer = dict()
+        print("Time Taken:", time.time()-start_time)
         self.write_to_json(buffer)
 
     def write_to_json(self, data):
