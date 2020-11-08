@@ -1,5 +1,5 @@
-from image_processor import ImageProcessor
-from brand_impact.metric import BrandImpact
+#from image_processor import ImageProcessor
+#from brand_impact.metric import BrandImpact
 from selenium import webdriver
 
 import cv2
@@ -114,5 +114,6 @@ class Game:
         with open('test.json', 'w') as f:
             json.dump(file_data, f)
 
-game = Game(video="/Users/hareesh/Timbuctoo/BattleOfBrands/BattleField/video.mp4")
+#game = Game(video="/Users/hareesh/Timbuctoo/BattleOfBrands/BattleField/video.mp4")
 # game.begin_game()
+game = Game()
