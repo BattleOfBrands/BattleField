@@ -54,7 +54,7 @@ class FewShotDetection:
         input_image = read_image(image_path)
         h, w = get_image_size_after_resize_preserving_aspect_ratio(h=input_image.size[1],
                                                                    w=input_image.size[0],
-                                                                   target_size=1000)
+                                                                   target_size=1500)
         input_image = input_image.resize((w, h))
 
         input_image_th = self.transformer(input_image)
