@@ -7,7 +7,7 @@ from yacs.config import CfgNode as CN
 cfg = CN()
 
 # GPU or CPU
-cfg.is_cuda = True
+cfg.is_cuda = False
 # fix random seed to this value
 cfg.random_seed = 42
 

@@ -8,7 +8,7 @@ from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
 import logging
 import json
 import torch
-BRAND_NAMES = ["cred", "paytm", "dream11"]
+BRAND_NAMES = ["cred"]
 DATASET = "tests/test_data/match_images/*.png"
 LOGOS_PATH = "tests/test_data/logos/"
 SAVE_TO = "report.json"
@@ -66,7 +66,7 @@ class ImageProcessor:
         return response
 
     def start_processor(self):
-        images = glob.glob(self.data_set) #["tests/test_data/match_images/cred.png"]
+        images =  glob.glob(self.data_set)# #["tests/test_data/match_images/cred.png"]
         batch_size = 1
         buffer = dict()
         start_time = time.time()

@@ -23,17 +23,16 @@ net, box_coder, criterion, img_normalization, optimizer_state = build_os2d_from_
 class FewShotDetection:
     def __init__(self, logos_path, name=None):
         self.transformer = transforms.Compose([
-            transforms.ToTensor(),
-            transforms.Normalize(img_normalization["mean"], img_normalization["std"])
+            transforms.ToTensor()
         ])
         self.logos = self.load_logos(logos_path)
         self.name = name
 
     def transform_image(self, input_image, target_size):
-        # h, w = get_image_size_after_resize_preserving_aspect_ratio(h=input_image.size[1],
-        #                                                            w=input_image.size[0],
-        #                                                            target_size=target_size)
-        # input_image = input_image.resize((w, h))
+        h, w = get_image_size_after_resize_preserving_aspect_ratio(h=input_image.size[1],
+                                                                   w=input_image.size[0],
+                                                                   target_size=target_size)
+        input_image = input_image.resize((w, h))
 
         return self.transformer(input_image)
 
@@ -79,7 +78,7 @@ class FewShotDetection:
         # remove some fields to lighten visualization
         boxes.remove_field("default_boxes")
 
-        cfg.visualization.eval.max_detections = 8
+        cfg.visualization.eval.max_detections = 25
         cfg.visualization.eval.score_threshold = float(0.6)
         show_detections(boxes, input_image,
                         cfg.visualization.eval, brand_name=self.name)
