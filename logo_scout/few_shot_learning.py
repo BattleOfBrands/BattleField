@@ -60,6 +60,8 @@ class FewShotDetection:
 
         input_image_th = self.transformer(input_image)
         input_image_th = input_image_th.unsqueeze(0)
+        if cfg.is_cuda:
+            input_image_th = input_image_th.cuda()
 
         with torch.no_grad():
             loc_prediction_batch, class_prediction_batch, _, fm_size, transform_corners_batch = net(
