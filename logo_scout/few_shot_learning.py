@@ -81,8 +81,8 @@ class FewShotDetection:
         # remove some fields to lighten visualization
         boxes.remove_field("default_boxes")
 
-        cfg.visualization.eval.max_detections = 25
-        cfg.visualization.eval.score_threshold = float(0.6)
+        cfg.visualization.eval.max_detections = MAX_LOGOS_PER_IMAGE
+        cfg.visualization.eval.score_threshold = float(THRESHOLD)
         show_detections(boxes, input_image,
                         cfg.visualization.eval, brand_name=self.name)
 

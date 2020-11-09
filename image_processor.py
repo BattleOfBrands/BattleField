@@ -68,12 +68,14 @@ class ImageProcessor:
         batch_size = 1
         buffer = dict()
         start_time = time.time()
+        print("Total Images", len(images))
+        completed = 0
         for image_path in images:
-            print(image_path)
+            completed = completed + 1
             buffer[image_path] = self.detect_logos(image_path)
             batch_size = batch_size - 1
             if batch_size == 0:
-                print('.')
+                print("Completed", completed/len(images))
                 self.write_to_json(buffer)
                 batch_size = 10
                 buffer = dict()
