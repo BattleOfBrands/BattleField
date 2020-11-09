@@ -11,6 +11,7 @@ from logo_scout.os2d.os2d.structures.feature_map import FeatureMapSize
 from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
 import matplotlib.pyplot as plt
 import random
+from config import *
 
 logger = setup_logger("OS2D")
 
@@ -208,7 +209,7 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
             new_logo = get_random_string()
             if brand_name is not None:
                 new_logo = brand_name+"/"+new_logo
-            new_logo = "images/"+new_logo
+            new_logo = PREDICTED_LOGO_PATH+new_logo
             # print(int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))
             img.crop((int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))).save(new_logo)
 
