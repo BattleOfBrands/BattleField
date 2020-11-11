@@ -6,10 +6,10 @@ LOGOS_PATH = "tests/test_data/logos/"
 SAVE_TO = "report.json"
 PREDICTED_LOGO_PATH = "images/"
 
-# DATASET = "/content/drive/My Drive/BattleofBrands/Dataset/SampleMatch/data_31/*.jpg"
-# LOGOS_PATH = "/content/drive/My Drive/BattleofBrands/Dataset/logos/training/"
-# SAVE_TO = "/content/drive/My Drive/BattleofBrands/Dataset/logos/result.json"
-# PREDICTED_LOGO_PATH = "/content/drive/My Drive/BattleofBrands/Dataset/logos/predicted/"
+DATASET = "/content/drive/My Drive/BattleofBrands/Dataset/SampleMatch/data_31/*.jpg"
+LOGOS_PATH = "/content/drive/My Drive/BattleofBrands/Dataset/logos/training/"
+SAVE_TO = "/content/drive/My Drive/BattleofBrands/Dataset/logos/result.json"
+PREDICTED_LOGO_PATH = "/content/drive/My Drive/BattleofBrands/Dataset/logos/predicted/"
 
 THRESHOLD = 0.6
 MAX_LOGOS_PER_IMAGE = 10
