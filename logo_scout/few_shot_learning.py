@@ -38,30 +38,21 @@ class FewShotDetection:
         return self.transformer(input_image)
 
     def pre_process_input_image(self, image_path):
-        image = read_image(image_path)
-        input_image_th = self.transform_image(image, target_size=1500)
-        input_image_th = input_image_th.unsqueeze(0)
-        if cfg.is_cuda:
-            input_image_th = input_image_th.cuda()
-        return input_image_th
-
-    def box_to_list(self, boxes):
-        result = list()
-
-        return result
-
-    def identify_logos(self, image_path):
-
         input_image = read_image(image_path)
         h, w = get_image_size_after_resize_preserving_aspect_ratio(h=input_image.size[1],
                                                                    w=input_image.size[0],
-                                                                   target_size=1500)
+                                                                   target_size=INPUT_TARGET_SIZE)
         input_image = input_image.resize((w, h))
 
         input_image_th = self.transformer(input_image)
         input_image_th = input_image_th.unsqueeze(0)
         if cfg.is_cuda:
             input_image_th = input_image_th.cuda()
+        return input_image, input_image_th
+
+    def identify_logos(self, image_path):
+
+        input_image, input_image_th = self.pre_process_input_image(image_path)
 
         with torch.no_grad():
             loc_prediction_batch, class_prediction_batch, _, fm_size, transform_corners_batch = net(
@@ -83,8 +74,8 @@ class FewShotDetection:
 
         cfg.visualization.eval.max_detections = MAX_LOGOS_PER_IMAGE
         cfg.visualization.eval.score_threshold = float(THRESHOLD)
-        show_detections(boxes, input_image,
-                        cfg.visualization.eval, brand_name=self.name)
+        show_detections(boxes, input_image, cfg.visualization.eval,
+                        brand_name=self.name, showfig=SHOW_PREDICTIONS, save_predictions=SAVE_PREDICTIONS)
 
         return boxes
 
@@ -104,7 +95,7 @@ class FewShotDetection:
 
 def show_detections(boxes, image_to_show,
                     cfg_visualization,
-                    class_ids=None, image_id=None, brand_name=None):
+                    class_ids=None, image_id=None, brand_name=None, showfig=True, save_predictions=True):
     labels = boxes.get_field("labels").clone()
     scores = boxes.get_field("scores").clone()
 
@@ -122,14 +113,15 @@ def show_detections(boxes, image_to_show,
                          class_ids=class_ids,
                          score_threshold=cfg_visualization.score_threshold,
                          max_dets=cfg_visualization.max_detections,
-                         showfig=True,
+                         showfig=showfig,
                          image_id=image_id,
-                         brand_name=brand_name)
+                         brand_name=brand_name,
+                         save_predictions=save_predictions)
 
 
 def show_annotated_image(img, boxes, labels, scores, class_ids, score_threshold=0.0,
                          default_boxes=None, transform_corners=None,
-                         max_dets=None, showfig=False, image_id=None, brand_name=None):
+                         max_dets=None, showfig=False, image_id=None, brand_name=None, save_predictions=True):
     good_ids = torch.nonzero(scores.float() > score_threshold).view(-1)
     if good_ids.numel() > 0:
         if max_dets is not None:
@@ -164,17 +156,53 @@ def show_annotated_image(img, boxes, labels, scores, class_ids, score_threshold=
         # draw polygons representing the corners of a transformation
         transform_corners = transform_corners[good_ids].cpu()
 
-    vis_image(img,
-              showfig=showfig,
-              boxes=boxes,
-              scores=scores,
-              label_names=label_names,
-              colors=box_colors,
-              image_id=image_id,
-              polygons=transform_corners,
-              brand_name=brand_name
-              )
+    if save_predictions:
+        save_image(img, boxes, brand_name)
+
+    if showfig:
+        vis_image(img,
+                  showfig=showfig,
+                  boxes=boxes,
+                  scores=scores,
+                  label_names=label_names,
+                  colors=box_colors,
+                  image_id=image_id,
+                  polygons=transform_corners,
+                  brand_name=brand_name
+                  )
     return
+
+def save_image(img, boxes=None,brand_name=None):
+    """Visualize a color image.
+
+    Args:
+      img: (PIL.Image/tensor) image to visualize
+      boxes: (tensor) bounding boxes, sized [#obj, 4], format: x1y1x2y2
+      label_names: (list) label names
+      scores: (list) confidence scores
+      colors: (list) colors of boxes
+      image_id: show this image_id as axes caption
+      polygon: (tensor) quadrilateral defining the transformations [#obj, 8]
+      showfig: (bool) - flag showing whether to call plt.show() at the end (e.g., stopping the script)
+
+    Reference:
+      https://github.com/kuangliu/torchcv/blob/master/torchcv/visualizations/vis_image.py
+    """
+
+    # Plot boxes
+    if boxes is not None:
+        for i, bb in enumerate(boxes):
+
+            xy = (bb[0], bb[1])
+            width = bb[2] - bb[0]
+            height = bb[3] - bb[1]
+
+            new_logo = get_random_string()
+            if brand_name is not None:
+                new_logo = brand_name+"/"+new_logo
+            new_logo = PREDICTED_LOGO_PATH+new_logo
+            # print(int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))
+            img.crop((int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))).save(new_logo)
 
 
 def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image_id=None, polygons=None, showfig=False, brand_name=None):
@@ -207,13 +235,6 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
             xy = (bb[0], bb[1])
             width = bb[2] - bb[0]
             height = bb[3] - bb[1]
-
-            new_logo = get_random_string()
-            if brand_name is not None:
-                new_logo = brand_name+"/"+new_logo
-            new_logo = PREDICTED_LOGO_PATH+new_logo
-            # print(int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))
-            img.crop((int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))).save(new_logo)
 
             box_color = 'red' if colors is None else colors[i]
             ax.add_patch(plt.Rectangle(
@@ -268,9 +289,9 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
     # turne off axes
     plt.axis('off')
 
-    # # Show
-    # if showfig:
-    #     plt.show()
+    # Show
+    if showfig:
+        plt.show()
 
     return fig
 

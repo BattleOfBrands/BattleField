@@ -29,6 +29,8 @@ def count_model_parameters(net):
 
 
 def get_image_size_after_resize_preserving_aspect_ratio(h, w, target_size):
+    if target_size is None:
+        return h, w
     aspect_ratio_h_to_w = float(h) / w
     w = int(target_size / math.sqrt(aspect_ratio_h_to_w))
     h = int(target_size * math.sqrt(aspect_ratio_h_to_w))
