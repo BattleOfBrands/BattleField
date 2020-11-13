@@ -3,3 +3,13 @@ matplotlib
 torch
 torchvision
 yacs
+selenium
+opencv-python
+
+
+
+
+
+
+
+

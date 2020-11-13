@@ -1,0 +1,49 @@
+1605085739982	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/h5/jkqz77ln1hx04sx4ylnrm9jr0000gn/T/rust_mozprofilefZ2aWZ"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605085743256	Marionette	INFO	Listening on port 54427
+1605099442610	Marionette	INFO	Stopped listening on port 54427
+1605161354751	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/h5/jkqz77ln1hx04sx4ylnrm9jr0000gn/T/rust_mozprofileJkB7GE"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605161356707	Marionette	INFO	Listening on port 50990
+1605161356753	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.hotstar.com/assets/html5_malibrary.js, line 1: SyntaxError: redeclaration of const _0xcebc
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: https://www.hotstar.com/assets/watch-page-v2.78.52a0beb06647ef31aa0b.js, line 39: Error: 404 Not Found
+[Child 70840, MediaDecoderStateMachine #1] WARNING: Decoder=11cfd0c00 Decode error: NS_ERROR_DOM_MEDIA_FATAL_ERR (0x806e0005) - RefPtr<MediaSourceTrackDemuxer::SamplesPromise> mozilla::MediaSourceTrackDemuxer::DoGetSamples(int32_t): manager is detached.: file /builds/worker/checkouts/gecko/dom/media/MediaDecoderStateMachine.cpp, line 3471
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x5A0009,name=PHttpChannel::Msg_RemoveCorsPreflightCacheEntry) Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x5A000A,name=PHttpChannel::Msg_DeletingChannel) Channel closing: too late to send/recv, messages will be lost
+
+1605161499489	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/h5/jkqz77ln1hx04sx4ylnrm9jr0000gn/T/rust_mozprofileOk3vbI"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605161501464	Marionette	INFO	Listening on port 51135
+1605161501565	Marionette	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+1605161547834	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/h5/jkqz77ln1hx04sx4ylnrm9jr0000gn/T/rust_mozprofileyKZC3f"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605161549744	Marionette	INFO	Listening on port 51195
+1605161549831	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://www.google.com/, line 16: Script terminated by timeout at:
+R@https://www.google.com/:16:885
+p@https://www.google.com/:14:740
+
+JavaScript error: https://www.hotstar.com/assets/html5_malibrary.js, line 1: SyntaxError: redeclaration of const _0xcebc
+JavaScript error: , line 0: uncaught exception: Object
+JavaScript error: https://www.hotstar.com/assets/watch-page-v2.78.52a0beb06647ef31aa0b.js, line 39: Error: 404 Not Found
+2020-11-12 11:43:10.247 firefox-bin[71039:11191639] IMKInputSession [0x1269ead30 presentFunctionRowItemTextInputViewWithEndpoint:completionHandler:] : [self textInputContext]=0x126766940 *NO* NSRemoteViewController to client, NSError=Error Domain=NSCocoaErrorDomain Code=4099 "The connection from pid 0 was invalidated from this process." UserInfo={NSDebugDescription=The connection from pid 0 was invalidated from this process.}, com.apple.inputmethod.EmojiFunctionRowItem
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1605192727787	Marionette	INFO	Stopped listening on port 50990

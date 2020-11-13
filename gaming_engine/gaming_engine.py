@@ -8,7 +8,7 @@ import json
 
 
 class Game:
-    def __init__(self, video=None, save_to="/tmp"):
+    def __init__(self, video=None, save_to="/Users/hareesh/ipl_final/"):
         if video is None:
             self.web_driver = self.create_web_driver()
             self.begin_game(save_to)
@@ -55,10 +55,13 @@ class Game:
         return driver
 
     def begin_game(self, save_to):
+        time.sleep(10)
         count = 0
         while True:
+            if count%60 == 0:
+                print("Min", count/60)
             count = count + 1
-            self.web_driver.save_screenshot(save_to+"/"+str(count)+".jpg")
+            self.web_driver.save_screenshot(save_to+str(count)+".jpg")
             # image = Image.open("image.png")
             # print(image)
             # data = self.process_image(self.time_in_sec, "image.png")
