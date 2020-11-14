@@ -25,6 +25,7 @@ class ImageProcessor:
         for brand_name in brand_names:
             print("Loading..", brand_name)
             logo_paths = glob.glob(LOGOS_PATH + brand_name + "/*.png")
+            logo_paths = [random.choice(logo_paths) for _ in range(MAX_LOGOS_PER_CLASS)]
             print("Found ", len(logo_paths), " logos")
             identifier[brand_name] = FewShotDetection(logo_paths, name=brand_name)
         return identifier
@@ -106,6 +107,6 @@ class ImageProcessor:
         with open(self.save_to, 'w') as f:
             json.dump(file_data, f)
 
-
-image_processor = ImageProcessor(brand_names=BRAND_NAMES, dataset=DATASET, save_to=SAVE_TO, logos_path=LOGOS_PATH)
-image_processor.start_processor()
+while True:
+    image_processor = ImageProcessor(brand_names=BRAND_NAMES, dataset=DATASET, save_to=SAVE_TO, logos_path=LOGOS_PATH)
+    image_processor.start_processor()
