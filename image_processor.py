@@ -77,12 +77,13 @@ class ImageProcessor:
         images = glob.glob(self.data_set)  # #["tests/test_data/match_images/cred.png"]
         batch_size = 1
         buffer = dict()
-        start_time = time.time()
         print("Total Images", len(images))
-        completed = 0
-
         if RANDOMIZE == True:
             images = [random.choice(images) for _ in range(RANDOM_SIZE)]
+
+        start_time = time.time()
+        print("Considered Images", len(images))
+        completed = 0
 
         for image_path in images:
             completed = completed + 1
