@@ -5,6 +5,7 @@ from logo_scout.few_shot_learning import FewShotDetection
 from logo_scout.os2d.os2d.utils import visualization
 from logo_scout.os2d.os2d.structures.bounding_box import cat_boxlist, BoxList
 
+import random
 import logging
 import json
 import torch
@@ -23,7 +24,7 @@ class ImageProcessor:
         identifier = dict()
         for brand_name in brand_names:
             print("Loading..", brand_name)
-            logo_paths = glob.glob(LOGOS_PATH+brand_name + "/*.png")
+            logo_paths = glob.glob(LOGOS_PATH + brand_name + "/*.png")
             print("Found ", len(logo_paths), " logos")
             identifier[brand_name] = FewShotDetection(logo_paths, name=brand_name)
         return identifier
@@ -65,23 +66,34 @@ class ImageProcessor:
 
         return response
 
+    def show_statistics(self):
+        for brand_name in self.brand_names:
+            input_logo_paths = glob.glob(LOGOS_PATH + brand_name + "/*.png")
+            predicted_logo_paths = glob.glob(LOGOS_PATH + brand_name + "/*.png")
+            print("Got ", len(predicted_logo_paths), "from ", len(input_logo_paths), "logos")
+
     def start_processor(self):
-        images =  glob.glob(self.data_set)# #["tests/test_data/match_images/cred.png"]
+        images = glob.glob(self.data_set)  # #["tests/test_data/match_images/cred.png"]
         batch_size = 1
         buffer = dict()
         start_time = time.time()
         print("Total Images", len(images))
         completed = 0
+
+        if RANDOMIZE == True:
+            images = [random.choice(images) for _ in range(RANDOM_SIZE)]
+
         for image_path in images:
             completed = completed + 1
             buffer[image_path] = self.detect_logos(image_path)
             batch_size = batch_size - 1
             if batch_size == 0:
-                print("Completed", completed/len(images))
+                print("Completed", completed / len(images))
                 self.write_to_json(buffer)
-                batch_size = 10
+                batch_size = WRITE_BATCH_SIZE
                 buffer = dict()
-        print("Time Taken:", time.time()-start_time)
+        print("Time Taken:", time.time() - start_time)
+        self.show_statistics()
         self.write_to_json(buffer)
 
     def write_to_json(self, data):
