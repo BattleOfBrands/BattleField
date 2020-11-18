@@ -199,8 +199,8 @@ def save_image(img, boxes=None,brand_name=None):
 
             new_logo = get_random_string()
             if brand_name is not None:
-                new_logo = brand_name+"/"+new_logo
-            new_logo = PREDICTED_LOGO_PATH+new_logo
+                new_logo = "/"+brand_name+"/"+new_logo
+            new_logo = PREDICTED_LOGO_PATH+ITERATION_NAME+new_logo
             # print(int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))
             img.crop((int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))).save(new_logo)
 

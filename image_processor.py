@@ -36,6 +36,8 @@ class ImageProcessor:
         for brand_name in brand_names:
             print("Loading..", brand_name)
             logo_paths = glob.glob(LOGOS_PATH + brand_name + "/*.png")
+            predicted_logo_paths = glob.glob(PREDICTED_LOGO_PATH + ITERATION_NAME + "/" + brand_name + "/*.png")
+            logo_paths = logo_paths + predicted_logo_paths
             if RANDOMIZE_INPUT_LOGOS:
                 logo_paths = [random.choice(logo_paths) for _ in range(MAX_LOGOS_PER_CLASS)]
             print("Found ", len(logo_paths), " logos")
@@ -118,12 +120,13 @@ class ImageProcessor:
 
         except Exception as error:
             file_data = data
-            print("File not found")
+            print("JSON File not found.. creating and writing to new file")
 
         with open(self.save_to, 'w') as f:
             json.dump(file_data, f)
 
-while True:
+
+while TOTAL_ITERATIONS>=0:
+    TOTAL_ITERATIONS = TOTAL_ITERATIONS -1
     image_processor = ImageProcessor(brand_names=BRAND_NAMES, dataset=DATASET, save_to=SAVE_TO, logos_path=LOGOS_PATH)
     image_processor.start_processor()
-    LOGOS_PATH = PREDICTED_LOGO_PATH+ITERATION_NAME
