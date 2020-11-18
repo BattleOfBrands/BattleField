@@ -25,7 +25,8 @@ class ImageProcessor:
         for brand_name in brand_names:
             print("Loading..", brand_name)
             logo_paths = glob.glob(LOGOS_PATH + brand_name + "/*.png")
-            logo_paths = [random.choice(logo_paths) for _ in range(MAX_LOGOS_PER_CLASS)]
+            if RANDOMIZE_INPUT_LOGOS:
+                logo_paths = [random.choice(logo_paths) for _ in range(MAX_LOGOS_PER_CLASS)]
             print("Found ", len(logo_paths), " logos")
             identifier[brand_name] = FewShotDetection(logo_paths, name=brand_name)
         return identifier
@@ -78,8 +79,8 @@ class ImageProcessor:
         batch_size = 1
         buffer = dict()
         print("Total Images", len(images))
-        if RANDOMIZE == True:
-            images = [random.choice(images) for _ in range(RANDOM_SIZE)]
+        if RANDOMIZE_INPUT_IMAGES == True:
+            images = [random.choice(images) for _ in range(RANDOM_SIZE_INPUT_IMAGES)]
 
         start_time = time.time()
         print("Considered Images", len(images))
@@ -99,11 +100,14 @@ class ImageProcessor:
         self.write_to_json(buffer)
 
     def write_to_json(self, data):
+        try:
+            with open(self.save_to) as f:
+                file_data = json.load(f)
+            file_data.update(data)
 
-        with open(self.save_to) as f:
-            file_data = json.load(f)
-
-        file_data.update(data)
+        except Exception as error:
+            file_data = data
+            print("File not found")
 
         with open(self.save_to, 'w') as f:
             json.dump(file_data, f)
@@ -111,3 +115,4 @@ class ImageProcessor:
 while True:
     image_processor = ImageProcessor(brand_names=BRAND_NAMES, dataset=DATASET, save_to=SAVE_TO, logos_path=LOGOS_PATH)
     image_processor.start_processor()
+    LOGOS_PATH = PREDICTED_LOGO_PATH

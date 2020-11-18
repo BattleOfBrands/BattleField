@@ -47,3 +47,13 @@ Exiting due to channel error.
 Exiting due to channel error.
 Exiting due to channel error.
 1605192727787	Marionette	INFO	Stopped listening on port 50990
+1605413377174	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/h5/jkqz77ln1hx04sx4ylnrm9jr0000gn/T/rust_mozprofiler0vRDz"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605413379543	Marionette	INFO	Listening on port 65097
+1605413379661	Marionette	WARN	TLS certificate errors will be ignored for this session
+Exiting due to channel error.
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.

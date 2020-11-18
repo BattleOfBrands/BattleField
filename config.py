@@ -1,17 +1,17 @@
 
-BRAND_NAMES = ["paytm", "cred", "unacademy", "altroz", "dream11"]
+BRAND_NAMES = ["paytm"]
 
-DATASET = "tests/test_data/match_images/*.png"
+DATASET = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/match/4821.jpg"
 LOGOS_PATH = "tests/test_data/logos/"
-SAVE_TO = "report.json"
+SAVE_TO = "report1.json"
 PREDICTED_LOGO_PATH = "images/"
 
-DATASET = "/content/drive/My Drive/BattleofBrands/Dataset/Match/finals/ipl_final/*.jpg"
-LOGOS_PATH = "/content/drive/My Drive/BattleofBrands/Dataset/logos/training/"
-SAVE_TO = "/content/drive/My Drive/BattleofBrands/Dataset/logos/result.json"
-PREDICTED_LOGO_PATH = "/content/drive/My Drive/BattleofBrands/Dataset/logos/predicted/"
+# DATASET = "/content/drive/My Drive/BattleofBrands/Dataset/Match/finals/ipl_final/*.jpg"
+# LOGOS_PATH = "/content/drive/My Drive/BattleofBrands/Dataset/logos/training/"
+# SAVE_TO = "/content/drive/My Drive/BattleofBrands/Dataset/logos/result.json"
+# PREDICTED_LOGO_PATH = "/content/drive/My Drive/BattleofBrands/Dataset/logos/predicted/"
 
-THRESHOLD = 0.7
+THRESHOLD = 0.8
 MAX_LOGOS_PER_IMAGE = 10
 
 SAVE_PREDICTIONS = True
@@ -21,7 +21,8 @@ INPUT_TARGET_SIZE = 1500
 
 WRITE_BATCH_SIZE = 50
 
-RANDOMIZE = False
-RANDOM_SIZE = 100
+RANDOMIZE_INPUT_IMAGES = False
+RANDOM_SIZE_INPUT_IMAGES = 100
 
+RANDOMIZE_INPUT_LOGOS = False
 MAX_LOGOS_PER_CLASS = 5
