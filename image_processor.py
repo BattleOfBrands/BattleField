@@ -10,7 +10,7 @@ import logging
 import json
 import torch
 from config import *
-
+import os
 
 class ImageProcessor:
     def __init__(self, brand_names, dataset, save_to, logos_path):
@@ -19,6 +19,17 @@ class ImageProcessor:
         self.brand_names = brand_names
         self.save_to = save_to
         self.logos_path = logos_path
+        self.create_dirs()
+
+    def create_dirs(self):
+        main_dir = PREDICTED_LOGO_PATH+ITERATION_NAME
+        if not os.path.exists(main_dir):
+            os.makedirs(main_dir)
+
+        for brand_name in BRAND_NAMES:
+            brand_dir = main_dir+"/"+brand_name
+            if not os.path.exists(brand_dir):
+                os.makedirs(brand_dir)
 
     def set_up(self, brand_names):
         identifier = dict()
@@ -115,4 +126,4 @@ class ImageProcessor:
 while True:
     image_processor = ImageProcessor(brand_names=BRAND_NAMES, dataset=DATASET, save_to=SAVE_TO, logos_path=LOGOS_PATH)
     image_processor.start_processor()
-    LOGOS_PATH = PREDICTED_LOGO_PATH
+    LOGOS_PATH = PREDICTED_LOGO_PATH+ITERATION_NAME
