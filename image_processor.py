@@ -135,7 +135,7 @@ class ImageProcessor:
             json.dump(file_data, f)
 
 
-while TOTAL_ITERATIONS>=0:
-    TOTAL_ITERATIONS = TOTAL_ITERATIONS -1
+while TOTAL_ITERATIONS > 0:
+    TOTAL_ITERATIONS = TOTAL_ITERATIONS - 1
     image_processor = ImageProcessor(brand_names=BRAND_NAMES, dataset=DATASET, save_to=SAVE_TO, logos_path=LOGOS_PATH)
     image_processor.start_processor()
