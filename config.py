@@ -19,7 +19,7 @@ ITERATION_NAME = "test"
 # PREDICTED_LOGO_PATH = "/content/drive/My Drive/BattleofBrands/Dataset/logos/predicted/"
 # ITERATION_NAME = "10_image_2"
 
-THRESHOLD = 0.60
+THRESHOLD = 0.65
 MAX_LOGOS_PER_IMAGE = 10
 
 SAVE_LOGO_PREDICTIONS = False
