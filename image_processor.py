@@ -56,10 +56,20 @@ class ImageProcessor:
         else:
             boxes = BoxList.create_empty(boxes.image_size)
 
+        default_boxes = boxes.get_field("default_boxes") if boxes.has_field("default_boxes") else None
+        if default_boxes is not None:
+            default_boxes = default_boxes[good_ids].cpu()
+
+            # append boxes
+            boxes = torch.cat([default_boxes.bbox_xyxy, boxes.bbox_xyxy], 0)
+        else:
+            boxes = boxes.bbox_xyxy
+
         return self.bounding_boxes(boxes)
 
     def bounding_boxes(self, boxes):
         bouding_boxes = list()
+
         for bounding_box in boxes.bbox_xyxy:
             b_box = list()
             for cord in bounding_box:
