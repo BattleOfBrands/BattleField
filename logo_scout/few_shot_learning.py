@@ -289,6 +289,7 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
     if showfig:
         plt.show()
 
+    plt.close()
     return fig
 
 def get_random_string():
