@@ -1,25 +1,33 @@
 
 BRAND_NAMES = ["paytm", "ceat", "unacademy", "cred", "altroz", "dream11"]
 
-DATASET = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/match/4821.jpg"
+DATASET = "/Users/hareesh/Timbuctoo/BattleOfBrands/dataset/match/*.jpg"
 LOGOS_PATH = "tests/test_data/logos/"
 SAVE_TO = "report1.json"
 PREDICTED_LOGO_PATH = "images/"
 
-# DATASET = "/content/drive/My Drive/BattleofBrands/Dataset/Match/finals/ipl_final/*.jpg"
-# # LOGOS_PATH = "/content/drive/My Drive/BattleofBrands/Dataset/logos/training/"
-# SAVE_TO = "/content/drive/My Drive/BattleofBrands/Dataset/logos/result.json"
+# DATASET = "/content/drive/My Drive/BattleofBrands/Dataset/Match/finals/first_half/*.jpg"
+# LOGOS_PATH = "/content/drive/My Drive/BattleofBrands/Dataset/logos/predicted/train_data/"
+# SAVE_TO = "/content/drive/My Drive/BattleofBrands/Dataset/logos/10_1.json"
 # PREDICTED_LOGO_PATH = "/content/drive/My Drive/BattleofBrands/Dataset/logos/predicted/"
+# ITERATION_NAME = "10_image_1"
 
-THRESHOLD = 0.8
+# DATASET = "/content/drive/My Drive/BattleofBrands/Dataset/Match/finals/second_half/*.jpg"
+# LOGOS_PATH = "/content/drive/My Drive/BattleofBrands/Dataset/logos/predicted/train_data/"
+# SAVE_TO = "/content/drive/My Drive/BattleofBrands/Dataset/logos/10_2.json"
+# PREDICTED_LOGO_PATH = "/content/drive/My Drive/BattleofBrands/Dataset/logos/predicted/"
+# ITERATION_NAME = "10_image_2"
+
+THRESHOLD = 0.75
 MAX_LOGOS_PER_IMAGE = 10
 
-SAVE_PREDICTIONS = True
+SAVE_LOGO_PREDICTIONS = False
+SAVE_IMAGE_PREDICTIONS = True
 SHOW_PREDICTIONS = False
 
 INPUT_TARGET_SIZE = 1500
 
-WRITE_BATCH_SIZE = 50
+WRITE_BATCH_SIZE = 100
 
 RANDOMIZE_INPUT_IMAGES = False
 RANDOM_SIZE_INPUT_IMAGES = 100
@@ -28,5 +36,5 @@ RANDOMIZE_INPUT_LOGOS = False
 MAX_LOGOS_PER_CLASS = 5
 
 
-ITERATION_NAME = "0.4"
-TOTAL_ITERATIONS = 10
+
+TOTAL_ITERATIONS = 1

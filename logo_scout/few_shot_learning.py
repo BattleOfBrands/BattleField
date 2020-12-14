@@ -75,7 +75,7 @@ class FewShotDetection:
         cfg.visualization.eval.max_detections = MAX_LOGOS_PER_IMAGE
         cfg.visualization.eval.score_threshold = float(THRESHOLD)
         show_detections(boxes, input_image, cfg.visualization.eval,
-                        brand_name=self.name, showfig=SHOW_PREDICTIONS, save_predictions=SAVE_PREDICTIONS)
+                        brand_name=self.name, showfig=SHOW_PREDICTIONS, save_predictions=SAVE_LOGO_PREDICTIONS)
 
         return boxes
 
@@ -139,18 +139,7 @@ def show_annotated_image(img, boxes, labels, scores, class_ids, score_threshold=
         label_names = []
         box_colors = []
 
-    # create visualizations of default boxes
-    if default_boxes is not None:
-        default_boxes = default_boxes[good_ids].cpu()
-
-        # append boxes
-        boxes = torch.cat([default_boxes.bbox_xyxy, boxes.bbox_xyxy], 0)
-        labels = torch.cat([torch.Tensor(len(default_boxes)).to(labels).zero_(), labels], 0)
-        scores = torch.cat([torch.Tensor(len(default_boxes)).to(scores).fill_(float("nan")), scores], 0)
-        label_names = [""] * len(default_boxes) + label_names
-        box_colors = ["cyan"] * len(default_boxes) + box_colors
-    else:
-        boxes = boxes.bbox_xyxy
+    boxes = boxes.bbox_xyxy
 
     if transform_corners is not None:
         # draw polygons representing the corners of a transformation
@@ -159,17 +148,16 @@ def show_annotated_image(img, boxes, labels, scores, class_ids, score_threshold=
     if save_predictions:
         save_image(img, boxes, brand_name)
 
-    if showfig:
-        vis_image(img,
-                  showfig=showfig,
-                  boxes=boxes,
-                  scores=scores,
-                  label_names=label_names,
-                  colors=box_colors,
-                  image_id=image_id,
-                  polygons=transform_corners,
-                  brand_name=brand_name
-                  )
+    vis_image(img,
+              showfig=showfig,
+              boxes=boxes,
+              scores=scores,
+              label_names=label_names,
+              colors=box_colors,
+              image_id=image_id,
+              polygons=transform_corners,
+              brand_name=brand_name
+              )
     return
 
 def save_image(img, boxes=None,brand_name=None):
@@ -288,6 +276,14 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
 
     # turne off axes
     plt.axis('off')
+
+    if SAVE_IMAGE_PREDICTIONS:
+        new_logo = get_random_string()
+        if brand_name is not None:
+            new_logo = "/" + brand_name + "/" + new_logo
+        new_logo = PREDICTED_LOGO_PATH + ITERATION_NAME + new_logo
+
+        plt.savefig(new_logo)
 
     # Show
     if showfig:
