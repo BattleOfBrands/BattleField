@@ -296,9 +296,7 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
         if brand_name is not None:
             new_logo = "/" + brand_name + "/" + image_name
         new_logo = PREDICTED_LOGO_PATH + ITERATION_NAME + new_logo
-
         plt.savefig(new_logo)
-        print(new_logo)
 
     # Show
     if showfig:

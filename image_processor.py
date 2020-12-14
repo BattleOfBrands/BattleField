@@ -69,8 +69,7 @@ class ImageProcessor:
 
     def bounding_boxes(self, boxes):
         bouding_boxes = list()
-
-        for bounding_box in boxes.bbox_xyxy:
+        for bounding_box in boxes:
             b_box = list()
             for cord in bounding_box:
                 b_box.append(int(cord))
