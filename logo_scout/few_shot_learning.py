@@ -74,7 +74,7 @@ class FewShotDetection:
 
         cfg.visualization.eval.max_detections = MAX_LOGOS_PER_IMAGE
         cfg.visualization.eval.score_threshold = float(THRESHOLD)
-        show_detections(boxes, input_image, cfg.visualization.eval,
+        show_detections(boxes, input_image, cfg.visualization.eval, image_name=image_path.split("/")[-1],
                         brand_name=self.name, showfig=SHOW_PREDICTIONS, save_predictions=SAVE_LOGO_PREDICTIONS)
 
         return boxes
@@ -94,7 +94,7 @@ class FewShotDetection:
 
 
 def show_detections(boxes, image_to_show,
-                    cfg_visualization,
+                    cfg_visualization, image_name=None,
                     class_ids=None, image_id=None, brand_name=None, showfig=True, save_predictions=True):
     labels = boxes.get_field("labels").clone()
     scores = boxes.get_field("scores").clone()
@@ -116,11 +116,12 @@ def show_detections(boxes, image_to_show,
                          showfig=showfig,
                          image_id=image_id,
                          brand_name=brand_name,
-                         save_predictions=save_predictions)
+                         save_predictions=save_predictions,
+                         image_name=image_name)
 
 
 def show_annotated_image(img, boxes, labels, scores, class_ids, score_threshold=0.0,
-                         default_boxes=None, transform_corners=None,
+                         default_boxes=None, transform_corners=None, image_name=None,
                          max_dets=None, showfig=False, image_id=None, brand_name=None, save_predictions=True):
     good_ids = torch.nonzero(scores.float() > score_threshold).view(-1)
     if good_ids.numel() > 0:
@@ -156,11 +157,12 @@ def show_annotated_image(img, boxes, labels, scores, class_ids, score_threshold=
               colors=box_colors,
               image_id=image_id,
               polygons=transform_corners,
-              brand_name=brand_name
+              brand_name=brand_name,
+              image_name=image_name
               )
     return
 
-def save_image(img, boxes=None,brand_name=None):
+def save_image(img, boxes=None,brand_name=None, image_name=None):
     """Visualize a color image.
 
     Args:
@@ -193,7 +195,8 @@ def save_image(img, boxes=None,brand_name=None):
             img.crop((int(bb[0]), int(bb[1]), int(bb[0] + width), int(bb[1] + height))).save(new_logo)
 
 
-def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image_id=None, polygons=None, showfig=False, brand_name=None):
+def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image_id=None, image_name=None,
+              polygons=None, showfig=False, brand_name=None):
     """Visualize a color image.
 
     Args:
@@ -278,12 +281,12 @@ def vis_image(img, boxes=None, label_names=None, scores=None, colors=None, image
     plt.axis('off')
 
     if SAVE_IMAGE_PREDICTIONS:
-        new_logo = get_random_string()
         if brand_name is not None:
-            new_logo = "/" + brand_name + "/" + new_logo
+            new_logo = "/" + brand_name + "/" + image_name
         new_logo = PREDICTED_LOGO_PATH + ITERATION_NAME + new_logo
 
         plt.savefig(new_logo)
+        print(new_logo)
 
     # Show
     if showfig:
